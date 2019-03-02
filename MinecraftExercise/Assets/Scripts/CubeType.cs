@@ -1,7 +1,8 @@
 public enum CubeType
 {
-    Red,
+    Grey,
     Brown,
     Green,
-    White
+    White,
+    Air
 }
