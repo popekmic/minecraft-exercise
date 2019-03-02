@@ -66,7 +66,6 @@ public class TerrainGenerator
         Vector3Int coords = new Vector3Int(x,y,z);
         if (terrainSerialization.changes.ContainsKey(coords))
         {
-            Debug.Log("Returned change for " + coords);
             return terrainSerialization.changes[coords];
         }
 

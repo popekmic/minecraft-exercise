@@ -30,13 +30,12 @@ namespace DefaultNamespace
 
         public void AddChange(CubeType type, int x, int y, int z)
         {
-            Debug.Log("Change:" + x + " " + y + " " + z);
             terrainGenerator.AddChange(type, x, y, z);
-            foreach (var chunk in chunks[new Vector2Int(x/ChunkSize,z/ChunkSize)])
+            Vector2Int coords = new Vector2Int(Mathf.RoundToInt(x / ChunkSize), Mathf.RoundToInt(z / ChunkSize));
+            foreach (var chunk in chunks[coords])
             {
-                if (chunk.position.y / ChunkSize == y / ChunkSize)
+                if (Mathf.RoundToInt(chunk.position.y / ChunkSize) == Mathf.RoundToInt(y / ChunkSize))
                 {
-                    Debug.Log("Started generating at mesh : " + chunk.position);
                     chunk.StartMeshGenerating();
                     break;
                 }

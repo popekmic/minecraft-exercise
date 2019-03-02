@@ -87,6 +87,96 @@ namespace DefaultNamespace
 
         private void GenerateTopFace(int x, int y, int z)
         {
+            vertices.Add(new Vector3(x - 0.5f, y + 0.5f, z + 0.5f));
+            vertices.Add(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f));
+            vertices.Add(new Vector3(x + 0.5f, y + 0.5f, z - 0.5f));
+            vertices.Add(new Vector3(x - 0.5f, y + 0.5f, z - 0.5f));
+
+            GenerateTriangle();
+            GenerateUVs();
+        }
+
+        private void GenerateBottomFace(int x, int y, int z)
+        {
+            vertices.Add(new Vector3(x - 0.5f, y - 0.5f, z - 0.5f));
+            vertices.Add(new Vector3(x + 0.5f, y - 0.5f, z - 0.5f));
+            vertices.Add(new Vector3(x + 0.5f, y - 0.5f, z + 0.5f));
+            vertices.Add(new Vector3(x - 0.5f, y - 0.5f, z + 0.5f));
+
+            GenerateTriangle();
+            GenerateUVs();
+        }
+
+        private void GenerateFrontFace(int x, int y, int z)
+        {
+            vertices.Add(new Vector3(x + 0.5f, y - 0.5f, z + 0.5f));
+            vertices.Add(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f));
+            vertices.Add(new Vector3(x - 0.5f, y + 0.5f, z + 0.5f));
+            vertices.Add(new Vector3(x - 0.5f, y - 0.5f, z + 0.5f));
+
+            GenerateTriangle();
+            GenerateUVs();
+        }
+
+        private void GenerateBackFace(int x, int y, int z)
+        {
+            vertices.Add(new Vector3(x - 0.5f, y - 0.5f, z - 0.5f));
+            vertices.Add(new Vector3(x - 0.5f, y + 0.5f, z - 0.5f));
+            vertices.Add(new Vector3(x + 0.5f, y + 0.5f, z - 0.5f));
+            vertices.Add(new Vector3(x + 0.5f, y - 0.5f, z - 0.5f));
+
+            GenerateTriangle();
+            GenerateUVs();
+        }
+
+        private void GenerateLeftFace(int x, int y, int z)
+        {
+            vertices.Add(new Vector3(x + 0.5f, y - 0.5f, z - 0.5f));
+            vertices.Add(new Vector3(x + 0.5f, y + 0.5f, z - 0.5f));
+            vertices.Add(new Vector3(x + 0.5f, y + 0.5f, z + 0.5f));
+            vertices.Add(new Vector3(x + 0.5f, y - 0.5f, z + 0.5f));
+
+            GenerateTriangle();
+            GenerateUVs();
+        }
+
+        private void GenerateRightFace(int x, int y, int z)
+        {
+            vertices.Add(new Vector3(x - 0.5f, y - 0.5f, z + 0.5f));
+            vertices.Add(new Vector3(x - 0.5f, y + 0.5f, z + 0.5f));
+            vertices.Add(new Vector3(x - 0.5f, y + 0.5f, z - 0.5f));
+            vertices.Add(new Vector3(x - 0.5f, y - 0.5f, z - 0.5f));
+
+            GenerateTriangle();
+            GenerateUVs();
+        }
+
+        private void GenerateTriangle()
+        {
+            triangles.Add(facesCount * 4);
+            triangles.Add(facesCount * 4 + 1);
+            triangles.Add(facesCount * 4 + 2);
+            triangles.Add(facesCount * 4);
+            triangles.Add(facesCount * 4 + 2);
+            triangles.Add(facesCount * 4 + 3);
+        }
+
+        private void GenerateUVs()
+        {
+            uvs.Add(new Vector2(TextureUnit * currentTextureCoords.x + TextureUnit,
+                TextureUnit * currentTextureCoords.y));
+            uvs.Add(new Vector2(TextureUnit * currentTextureCoords.x + TextureUnit,
+                TextureUnit * currentTextureCoords.y + TextureUnit));
+            uvs.Add(new Vector2(TextureUnit * currentTextureCoords.x,
+                TextureUnit * currentTextureCoords.y + TextureUnit));
+            uvs.Add(new Vector2(TextureUnit * currentTextureCoords.x, TextureUnit * currentTextureCoords.y));
+        }
+    }
+}
+
+/*
+ *private void GenerateTopFace(int x, int y, int z)
+        {
             vertices.Add(new Vector3(x, y, z + 1));
             vertices.Add(new Vector3(x + 1, y, z + 1));
             vertices.Add(new Vector3(x + 1, y, z));
@@ -150,26 +240,5 @@ namespace DefaultNamespace
             GenerateTriangle();
             GenerateUVs();
         }
-
-        private void GenerateTriangle()
-        {
-            triangles.Add(facesCount * 4);
-            triangles.Add(facesCount * 4 + 1);
-            triangles.Add(facesCount * 4 + 2);
-            triangles.Add(facesCount * 4);
-            triangles.Add(facesCount * 4 + 2);
-            triangles.Add(facesCount * 4 + 3);
-        }
-
-        private void GenerateUVs()
-        {
-            uvs.Add(new Vector2(TextureUnit * currentTextureCoords.x + TextureUnit,
-                TextureUnit * currentTextureCoords.y));
-            uvs.Add(new Vector2(TextureUnit * currentTextureCoords.x + TextureUnit,
-                TextureUnit * currentTextureCoords.y + TextureUnit));
-            uvs.Add(new Vector2(TextureUnit * currentTextureCoords.x,
-                TextureUnit * currentTextureCoords.y + TextureUnit));
-            uvs.Add(new Vector2(TextureUnit * currentTextureCoords.x, TextureUnit * currentTextureCoords.y));
-        }
-    }
-}
+ * 
+ */

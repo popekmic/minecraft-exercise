@@ -75,7 +75,6 @@ public class Chunk : MonoBehaviour
 
     private void ApplyMesh()
     {
-        Debug.Log("Applying mesh at :" + position);
         mesh.Clear();
         mesh.vertices = meshGenerator.vertices.ToArray();
         mesh.uv = meshGenerator.uvs.ToArray();

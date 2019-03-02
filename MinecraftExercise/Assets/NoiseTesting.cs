@@ -36,9 +36,25 @@ public class NoiseTesting : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(transform.position, transform.forward, out hit))
             {
-                Vector3 cubeHitPosition = hit.point;// - hit.normal * 0.25f;
+                Vector3 cubeHitPosition = hit.point - hit.normal * 0.5f;
                 //Debug.DrawLine(transform.position,hit.point,Color.red,15);
-                terrain.AddChange(CubeType.Air,(int) cubeHitPosition.x,(int) cubeHitPosition.y,(int) cubeHitPosition.z);
+                terrain.AddChange(CubeType.Air,
+                    Mathf.RoundToInt(cubeHitPosition.x),
+                    Mathf.RoundToInt(cubeHitPosition.y),
+                    Mathf.RoundToInt(cubeHitPosition.z));
+            }
+        }
+        
+        if (Input.GetButtonDown("Fire2"))
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit))
+            {
+                Vector3 cubeHitPosition = hit.point + hit.normal * 0.5f;
+                terrain.AddChange(CubeType.Grey,
+                    Mathf.RoundToInt(cubeHitPosition.x),
+                    Mathf.RoundToInt(cubeHitPosition.y),
+                    Mathf.RoundToInt(cubeHitPosition.z));
             }
         }
 
