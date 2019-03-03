@@ -9,20 +9,22 @@ namespace DefaultNamespace
     public class TerrainHandler
     {
         public const int ChunkSize = 16;
-        public const int SpaceHeight = 2;
 
-        private readonly TerrainGenerator terrainGenerator;
+        private TerrainGenerator terrainGenerator;
         private readonly int viewDistance;
+        private readonly int spaceHeight;
         private readonly ObjectPool chunkPool;
         private Vector2Int currentCenter;
 
         private readonly Dictionary<Vector2Int, List<Chunk>> chunks =
             new Dictionary<Vector2Int, List<Chunk>>();
 
-        public TerrainHandler(TerrainGenerator terrainGenerator, GameObject chunkPrefab, int viewDistance)
+        public TerrainHandler(TerrainGenerator terrainGenerator, GameObject chunkPrefab, int viewDistance,
+            int gamespaceHeight)
         {
             this.terrainGenerator = terrainGenerator;
             this.viewDistance = viewDistance / ChunkSize;
+            spaceHeight = gamespaceHeight / ChunkSize;
             currentCenter = new Vector2Int(this.viewDistance / 2, this.viewDistance / 2);
             chunkPool = new ObjectPool(chunkPrefab, (int) Mathf.Pow(this.viewDistance * 2, 2));
             GenerateTerrain();
@@ -31,10 +33,41 @@ namespace DefaultNamespace
         public void AddChange(CubeType type, int x, int y, int z)
         {
             terrainGenerator.AddChange(type, x, y, z);
-            Vector2Int coords = new Vector2Int(Mathf.RoundToInt(x / ChunkSize), Mathf.RoundToInt(z / ChunkSize));
+            Vector2Int coords = new Vector2Int(Mathf.FloorToInt((float) x / ChunkSize),
+                Mathf.FloorToInt((float) z / ChunkSize));
+
+            UpdateChunkAt(coords, y);
+
+            if (x % ChunkSize == 0)
+            {
+                coords.x -= 1;
+                UpdateChunkAt(coords, y);
+            }
+
+            if (Math.Abs(x % ChunkSize) == 15)
+            {
+                coords.x += 1;
+                UpdateChunkAt(coords, y);
+            }
+
+            if (z % ChunkSize == 0)
+            {
+                coords.y -= 1;
+                UpdateChunkAt(coords, y);
+            }
+
+            if (Math.Abs(z % ChunkSize) == 15)
+            {
+                coords.y += 1;
+                UpdateChunkAt(coords, y);
+            }
+        }
+
+        private void UpdateChunkAt(Vector2Int coords, int height)
+        {
             foreach (var chunk in chunks[coords])
             {
-                if (Mathf.RoundToInt(chunk.position.y / ChunkSize) == Mathf.RoundToInt(y / ChunkSize))
+                if (Mathf.RoundToInt(chunk.position.y / ChunkSize) == height / ChunkSize)
                 {
                     chunk.StartMeshGenerating();
                     break;
@@ -48,7 +81,7 @@ namespace DefaultNamespace
             {
                 for (int y = currentCenter.y - viewDistance; y < currentCenter.y + viewDistance; y++)
                 {
-                    for (int z = 0; z < SpaceHeight; z++)
+                    for (int z = 0; z < spaceHeight; z++)
                     {
                         CreateChunkAtPosition(x, y, z, 0);
                     }
@@ -93,7 +126,7 @@ namespace DefaultNamespace
                     {
                         if (!chunks.ContainsKey(coordinates))
                         {
-                            for (int z = 0; z < SpaceHeight; z++)
+                            for (int z = 0; z < spaceHeight; z++)
                             {
                                 CreateChunkAtPosition(x, y, z, 0.075f * newGeometryCount++);
                             }
@@ -121,6 +154,22 @@ namespace DefaultNamespace
 
                 chunks.Remove(coordinates);
             }
+        }
+
+        public void Recreate(TerrainGenerator terrainGen)
+        {
+            foreach (var chunkColumn in chunks.Values)
+            {
+                foreach (var chunk in chunkColumn)
+                {
+                    chunkPool.ReturnObject(chunk.gameObject);
+                }
+            }
+
+            chunks.Clear();
+
+            terrainGenerator = terrainGen;
+            GenerateTerrain();
         }
     }
 }

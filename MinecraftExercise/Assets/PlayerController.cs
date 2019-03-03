@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
@@ -37,9 +38,12 @@ public class PlayerController : MonoBehaviour
             moveVector.z *= speed;
         }
 
-        transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X"), 0));
-        playerCamera.transform.Rotate(new Vector3(-Input.GetAxis("Mouse Y"),0,0));
-        
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X"), 0));
+            playerCamera.transform.Rotate(new Vector3(-Input.GetAxis("Mouse Y"), 0, 0));
+        }
+
         moveVector.y -= gravity * Time.deltaTime;
         controller.Move(moveVector * Time.deltaTime);
     }

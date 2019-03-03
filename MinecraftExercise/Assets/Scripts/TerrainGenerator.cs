@@ -12,51 +12,28 @@ public class TerrainGenerator
     private const float Scale = 40;
 
     private TerrainDefinition definition;
-    private readonly TerrainSerialization terrainSerialization;
+    public TerrainInformation Information { get; }
 
     private Vector2Int currentCenter;
-    private CubeType[,,] precalculated = new CubeType[256, 256, 32];
+    //private CubeType[,,] precalculated = new CubeType[256, 256, 32];
 
-    public TerrainGenerator(TerrainDefinition definition) : this(definition, new TerrainSerialization())
+    public TerrainGenerator(TerrainDefinition definition) : this(definition, new TerrainInformation())
     {
-        terrainSerialization.groundLevel = 4;
-        terrainSerialization.maxHeight = 25;
-        terrainSerialization.noiseOffset = (int) (Random.value * 250);
-        terrainSerialization.changes = new Dictionary<Vector3Int, CubeType>();
-        PrecalculateCubes();
+        Information.groundLevel = 10;
+        Information.maxHeight = 35;
+        Information.noiseOffset = (int) (Random.value * 250);
+        Information.changes = new Dictionary<Vector3Int, CubeType>();
     }
 
-    public TerrainGenerator(TerrainDefinition definition, TerrainSerialization terrainSerialization)
+    public TerrainGenerator(TerrainDefinition definition, TerrainInformation terrainInformation)
     {
         this.definition = definition;
-        this.terrainSerialization = terrainSerialization;
+        this.Information = terrainInformation;
     }
 
     public void AddChange(CubeType type, int x, int y, int z)
     {
-        terrainSerialization.changes[new Vector3Int(x, y, z)] = type;
-    }
-
-    private void PrecalculateCubes()
-    {
-        for (int x = 0; x < 256; x++)
-        {
-            for (int y = 0; y < 256; y++)
-            {
-                int terrainHeight = GetTerrainHeight(x, y);
-
-                for (int z = 0; z < 32; z++)
-                {
-                    if (z > terrainHeight)
-                    {
-                        precalculated[x, y, z] = CubeType.Air;
-                        continue;
-                    }
-
-                    precalculated[x, y, z] = definition.GetCubeByTerrainHeight(z);
-                }
-            }
-        }
+        Information.changes[new Vector3Int(x, y, z)] = type;
     }
 
     public CubeType GetCubeTypeAtPosition(int x, int y, int z)
@@ -64,24 +41,31 @@ public class TerrainGenerator
         if (y < 0) return CubeType.Air;
         
         Vector3Int coords = new Vector3Int(x,y,z);
-        if (terrainSerialization.changes.ContainsKey(coords))
+        if (Information.changes.ContainsKey(coords))
         {
-            return terrainSerialization.changes[coords];
+            return Information.changes[coords];
+        }
+        
+        int terrainHeight = GetTerrainHeight(x, z);
+        if (y > terrainHeight)
+        {
+            return CubeType.Air;
         }
 
-        int coordX = x % 256;
+        return definition.GetCubeByTerrainHeight(y);
+        /*int coordX = x % 256;
         int coordZ = z % 256;
-        return precalculated[coordX < 0 ? coordX + 256 : coordX,coordZ < 0 ? coordZ + 256 : coordZ, y % 32];
+        return precalculated[coordX < 0 ? coordX + 256 : coordX,coordZ < 0 ? coordZ + 256 : coordZ, y % 32];*/
     }
 
     private int GetTerrainHeight(int x, int y)
     {
-        float scaledX = (terrainSerialization.noiseOffset + x) / Scale;
-        float scaledY = (terrainSerialization.noiseOffset + y) / Scale;
+        float scaledX = (Information.noiseOffset + x) / Scale;
+        float scaledY = (Information.noiseOffset + y) / Scale;
         int height = Math.Max(
             (int) (Mathf.PerlinNoise(scaledX, scaledY) *
-                   terrainSerialization.maxHeight),
-            terrainSerialization.groundLevel);
+                   Information.maxHeight),
+            Information.groundLevel);
         return height;
     }
 }

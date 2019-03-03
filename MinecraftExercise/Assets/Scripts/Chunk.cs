@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using DefaultNamespace;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Profiling;
 
@@ -16,6 +17,8 @@ public class Chunk : MonoBehaviour
     private bool shouldRecreateMesh;
     private bool meshReady;
 
+    private readonly Semaphore semaphore = new Semaphore(1,1);
+    
     private void Start()
     {
         mesh = GetComponent<MeshFilter>().mesh;
@@ -44,7 +47,6 @@ public class Chunk : MonoBehaviour
         if (shouldRecreateMesh)
         {
             new Thread(GenerateMesh).Start();
-            //GenerateMesh();
             shouldRecreateMesh = false;
         }
 
@@ -57,6 +59,7 @@ public class Chunk : MonoBehaviour
 
     private void GenerateMesh()
     {
+        semaphore.WaitOne();
         meshGenerator.Reset();
 
         for (int x = position.x; x < position.x + size; x++)
@@ -83,5 +86,7 @@ public class Chunk : MonoBehaviour
 
         col.sharedMesh = null;
         col.sharedMesh = mesh;
+        
+        semaphore.Release();
     }
 }
