@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using Utilities;
 
-namespace DefaultNamespace
+namespace Terrain
 {
     public class TerrainHandler
     {
         public const int ChunkSize = 16;
 
-        private TerrainGenerator terrainGenerator;
+        public TerrainGenerator Generator { get; private set; }
         private readonly int viewDistance;
         private readonly int spaceHeight;
         private readonly ObjectPool chunkPool;
@@ -22,7 +21,7 @@ namespace DefaultNamespace
         public TerrainHandler(TerrainGenerator terrainGenerator, GameObject chunkPrefab, int viewDistance,
             int gamespaceHeight)
         {
-            this.terrainGenerator = terrainGenerator;
+            this.Generator = terrainGenerator;
             this.viewDistance = viewDistance / ChunkSize;
             spaceHeight = gamespaceHeight / ChunkSize;
             currentCenter = new Vector2Int(this.viewDistance / 2, this.viewDistance / 2);
@@ -32,7 +31,7 @@ namespace DefaultNamespace
 
         public void AddChange(CubeType type, int x, int y, int z)
         {
-            terrainGenerator.AddChange(type, x, y, z);
+            Generator.AddChange(type, x, y, z);
             Vector2Int coords = new Vector2Int(Mathf.FloorToInt((float) x / ChunkSize),
                 Mathf.FloorToInt((float) z / ChunkSize));
 
@@ -60,6 +59,16 @@ namespace DefaultNamespace
             {
                 coords.y += 1;
                 UpdateChunkAt(coords, y);
+            }
+
+            if (y % ChunkSize == 0)
+            {
+                UpdateChunkAt(coords, y - 1);
+            }
+
+            if (Math.Abs(y % ChunkSize) == 15)
+            {
+                UpdateChunkAt(coords, y + 1);
             }
         }
 
@@ -95,7 +104,7 @@ namespace DefaultNamespace
             Chunk chunk = chunkObject.GetComponent<Chunk>();
             chunk.size = ChunkSize;
             chunk.position = new Vector3Int(x * ChunkSize, height * ChunkSize, y * ChunkSize);
-            chunk.Initialize(terrainGenerator, delay);
+            chunk.Initialize(Generator, delay);
             Vector2Int coords = new Vector2Int(x, y);
             if (!chunks.ContainsKey(coords))
             {
@@ -167,8 +176,9 @@ namespace DefaultNamespace
             }
 
             chunks.Clear();
-
-            terrainGenerator = terrainGen;
+            currentCenter = new Vector2Int(viewDistance / 2, viewDistance / 2);
+            
+            Generator = terrainGen;
             GenerateTerrain();
         }
     }

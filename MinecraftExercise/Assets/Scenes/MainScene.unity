@@ -345,7 +345,9 @@ GameObject:
   - component: {fileID: 534669905}
   - component: {fileID: 534669904}
   - component: {fileID: 534669903}
+  - component: {fileID: 534669907}
   - component: {fileID: 534669906}
+  - component: {fileID: 534669908}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -383,7 +385,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.25
+  near clip plane: 0.1
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -426,12 +428,58 @@ MonoBehaviour:
   m_GameObject: {fileID: 534669902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a837d27eca90b4342bcd764689e3227b, type: 3}
+  m_Script: {fileID: 11500000, guid: 465dc4c852f74c13927634f87de82fe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetingCube: {fileID: 904760952}
+  cubeSelection: {fileID: 1344785801}
+--- !u!114 &534669907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534669902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec8c6863085456e9e95cc725c1340fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   chunk: {fileID: 7055956973264729391, guid: c0e0d6b3db2f9974c8c093c291e2dccd, type: 3}
-  targetingCube: {fileID: 904760952}
-  cubeSelection: {fileID: 1344785801}
+  terrainDefinition:
+    cubes:
+    - type: 1
+      heightInTerrain: 0
+      timeToMine: 0.5
+    - type: 2
+      heightInTerrain: 8
+      timeToMine: 0.75
+    - type: 0
+      heightInTerrain: 20
+      timeToMine: 1.25
+    - type: 3
+      heightInTerrain: 25
+      timeToMine: 0.25
+  playerStartingPosition: {x: 64, y: 40, z: 64}
+  viewDistance: 128
+  maximumHeight: 48
+  playerController: {fileID: 1740396021}
+  miningBehaviour: {fileID: 534669908}
+  buildingBehaviour: {fileID: 534669906}
+--- !u!114 &534669908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534669902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa6017c5926d49a5855783a2e312efa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainDefinition:
+    cubes: []
 --- !u!1 &734825181
 GameObject:
   m_ObjectHideFlags: 0
