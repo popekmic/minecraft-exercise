@@ -460,10 +460,10 @@ MonoBehaviour:
     - type: 3
       heightInTerrain: 25
       timeToMine: 0.25
-  playerStartingPosition: {x: 64, y: 40, z: 64}
-  viewDistance: 128
+  playerStartingPosition: {x: 192, y: 40, z: 192}
+  viewDistance: 192
   maximumHeight: 48
-  playerController: {fileID: 1740396021}
+  playerControls: {fileID: 1740396021}
   miningBehaviour: {fileID: 534669908}
   buildingBehaviour: {fileID: 534669906}
 --- !u!114 &534669908

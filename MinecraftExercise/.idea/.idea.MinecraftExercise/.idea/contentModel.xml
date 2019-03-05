@@ -11,7 +11,7 @@
             <e p="BuildingBehaviour.cs" t="Include" />
             <e p="Mining.cs" t="Include" />
             <e p="MiningBehaviour.cs" t="Include" />
-            <e p="PlayerController.cs" t="Include" />
+            <e p="PlayerControls.cs" t="Include" />
           </e>
           <e p="InputHandler.cs" t="Include" />
           <e p="InputInterfaces.cs" t="Include" />
@@ -32,10 +32,17 @@
           </e>
         </e>
         <e p="Tests" t="Include">
-          <e p="ObjectPoolTests.cs" t="Include" />
-          <e p="Tests.asmdef" t="Include" />
+          <e p="Editmode" t="Include">
+            <e p="Editmode.asmdef" t="Include" />
+            <e p="ObjectPoolTests.cs" t="Include" />
+          </e>
+          <e p="Playmode" t="Include">
+            <e p="PlayerControlsTest.cs" t="Include" />
+            <e p="Tests.asmdef" t="Include" />
+          </e>
         </e>
       </e>
+      <e p="Editmode.csproj" t="IncludeRecursive" />
       <e p="Library" t="ExcludeRecursive" />
       <e p="MinecraftExercise.sln" t="IncludeFlat" />
       <e p="obj" t="ExcludeRecursive" />

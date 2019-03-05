@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InputHandler : IPlayerMovementInput, IMiningInput, IBuildingInput
 {
@@ -20,6 +21,11 @@ public class InputHandler : IPlayerMovementInput, IMiningInput, IBuildingInput
     public bool IsJumpKeyPressed()
     {
         return Input.GetButtonDown("Jump");
+    }
+
+    public bool IsPointerOverUi()
+    {
+        return EventSystem.current.IsPointerOverGameObject();
     }
 
     public bool IsMiningKeyActive()

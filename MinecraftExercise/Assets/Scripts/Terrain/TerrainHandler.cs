@@ -5,6 +5,9 @@ using Utilities;
 
 namespace Terrain
 {
+    /// <summary>
+    /// Class handling terrain generating and moving it around the player.
+    /// </summary>
     public class TerrainHandler
     {
         public const int ChunkSize = 16;
@@ -35,9 +38,9 @@ namespace Terrain
             Vector2Int coords = new Vector2Int(Mathf.FloorToInt((float) x / ChunkSize),
                 Mathf.FloorToInt((float) z / ChunkSize));
 
-            UpdateChunkAt(coords, y);
+            UpdateChunkAt(coords, y); // update chunk containing the change
 
-            if (x % ChunkSize == 0)
+            if (x % ChunkSize == 0) // if change was at threshold between chunks update neighbour chunks
             {
                 coords.x -= 1;
                 UpdateChunkAt(coords, y);
@@ -114,6 +117,10 @@ namespace Terrain
             chunks[coords].Add(chunk);
         }
 
+        /// <summary>
+        /// Method that moves the terrain in given direction
+        /// </summary>
+        /// <param name="change"></param>
         public void Move(Vector2Int change)
         {
             change = new Vector2Int(change.x / ChunkSize, change.y / ChunkSize);
@@ -123,6 +130,7 @@ namespace Terrain
             int searchDistanceY = viewDistance + Math.Abs(change.y);
             int newGeometryCount = 0;
 
+            // go through all coordinates of chunks that can be between the old position and the new position
             for (int x = currentCenter.x - searchDistanceX; x < currentCenter.x + searchDistanceX; x++)
             {
                 for (int y = currentCenter.y - searchDistanceY; y < currentCenter.y + searchDistanceY; y++)
@@ -133,7 +141,7 @@ namespace Terrain
                         && y >= newCenter.y - viewDistance
                         && y < newCenter.y + viewDistance)
                     {
-                        if (!chunks.ContainsKey(coordinates))
+                        if (!chunks.ContainsKey(coordinates)) //create missing chunks if in the area around new center
                         {
                             for (int z = 0; z < spaceHeight; z++)
                             {
@@ -141,11 +149,10 @@ namespace Terrain
                             }
                         }
 
-
                         continue;
                     }
 
-                    ReturnChunk(coordinates);
+                    ReturnChunk(coordinates); //delete old chunks otherwise
                 }
             }
 
@@ -165,7 +172,7 @@ namespace Terrain
             }
         }
 
-        public void Recreate(TerrainGenerator terrainGen)
+        public void Recreate(TerrainGenerator terrainGen, Vector3 position)
         {
             foreach (var chunkColumn in chunks.Values)
             {
@@ -176,8 +183,8 @@ namespace Terrain
             }
 
             chunks.Clear();
-            currentCenter = new Vector2Int(viewDistance / 2, viewDistance / 2);
-            
+            currentCenter = new Vector2Int((int) position.x / ChunkSize, (int) position.z / ChunkSize);
+
             Generator = terrainGen;
             GenerateTerrain();
         }

@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace GameMechanics
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerControls : MonoBehaviour
     {
         public float speed;
         public float gravity;
@@ -40,7 +40,7 @@ namespace GameMechanics
                 moveVector.z *= speed;
             }
 
-            if (!EventSystem.current.IsPointerOverGameObject())
+            if (!input.IsPointerOverUi())
             {
                 transform.Rotate(new Vector3(0, input.GetMouseAxisX(), 0));
                 playerCamera.transform.Rotate(new Vector3(-input.GetMouseAxisY(), 0, 0));

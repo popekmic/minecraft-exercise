@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using GameMechanics;
 using Terrain;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,16 +17,20 @@ public class GameManager : MonoBehaviour
     public delegate void ChangeBuildModeActive();
 
     public GameObject chunk;
-    public TerrainDefinition terrainDefinition;
     public Vector3 playerStartingPosition;
+    
+    [Header("Terrain parameters")]
+    public TerrainDefinition terrainDefinition;
     public int viewDistance = 128;
     public int maximumHeight = 48;
-
-    public PlayerController playerController;
+    public int groundLevel = 10;
+    public int maxHeight = 35;
+    
+    public PlayerControls playerControls;
     public MiningBehaviour miningBehaviour;
     public BuildingBehaviour buildingBehaviour;
 
-    private bool buildModeActive = false;
+    private bool buildModeActive;
     private TerrainHandler terrain;
     private Vector2Int lastPosition;
 
@@ -33,10 +39,10 @@ public class GameManager : MonoBehaviour
         lastPosition = new Vector2Int((int) transform.position.x, (int) transform.position.z);
 
         InputHandler inputHandler = new InputHandler();
-        playerController.input = inputHandler;
+        playerControls.input = inputHandler;
 
         terrainDefinition.Initialize();
-        terrain = new TerrainHandler(new TerrainGenerator(terrainDefinition), chunk, viewDistance, maximumHeight);
+        terrain = new TerrainHandler(new TerrainGenerator(terrainDefinition,groundLevel,maxHeight), chunk, viewDistance, maximumHeight);
 
         InitializeMining(inputHandler);
         InitializeBuilding(inputHandler);
@@ -114,12 +120,20 @@ public class GameManager : MonoBehaviour
         FileStream file = File.Open(path, FileMode.Open);
         TerrainSerialization savedTerrain = (TerrainSerialization) bf.Deserialize(file);
         file.Close();
-
-        TerrainGenerator terrainGen = new TerrainGenerator(terrainDefinition, savedTerrain.ToTerrainInfo());
-        terrain.Recreate(terrainGen);
-
+        
         transform.parent.gameObject.GetComponent<CharacterController>().enabled = false;
         transform.parent.position = playerStartingPosition;
+        StartCoroutine(EnablePlayer());
+        
+        TerrainGenerator terrainGen = new TerrainGenerator(terrainDefinition, savedTerrain.ToTerrainInfo());
+        terrain.Recreate(terrainGen, playerStartingPosition);
+
+        lastPosition = new Vector2Int((int) transform.position.x, (int) transform.position.z);
+    }
+
+    private IEnumerator EnablePlayer()
+    {
+        yield return new WaitForSeconds(5);
         transform.parent.gameObject.GetComponent<CharacterController>().enabled = true;
     }
 }

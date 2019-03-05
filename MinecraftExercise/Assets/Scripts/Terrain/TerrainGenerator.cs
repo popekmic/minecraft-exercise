@@ -9,15 +9,15 @@ namespace Terrain
     {
         private const float Scale = 40;
 
-        private TerrainDefinition definition;
+        private readonly TerrainDefinition definition;
         public TerrainInformation Information { get; }
 
         private Vector2Int currentCenter;
 
-        public TerrainGenerator(TerrainDefinition definition) : this(definition, new TerrainInformation())
+        public TerrainGenerator(TerrainDefinition definition,int groundLevel,int maxHeight) : this(definition, new TerrainInformation())
         {
-            Information.groundLevel = 10;
-            Information.maxHeight = 35;
+            Information.groundLevel = groundLevel;
+            Information.maxHeight = maxHeight;
             Information.noiseOffset = (int) (Random.value * 250);
             Information.changes = new Dictionary<Vector3Int, CubeType>();
         }
@@ -25,7 +25,7 @@ namespace Terrain
         public TerrainGenerator(TerrainDefinition definition, TerrainInformation terrainInformation)
         {
             this.definition = definition;
-            this.Information = terrainInformation;
+            Information = terrainInformation;
         }
 
         public void AddChange(CubeType type, int x, int y, int z)
@@ -64,8 +64,7 @@ namespace Terrain
             float scaledX = (Information.noiseOffset + x) / Scale;
             float scaledY = (Information.noiseOffset + y) / Scale;
             int height = Math.Max(
-                (int) (Mathf.PerlinNoise(scaledX, scaledY) *
-                       Information.maxHeight),
+                (int) (Mathf.PerlinNoise(scaledX, scaledY) * Information.maxHeight),
                 Information.groundLevel);
             return height;
         }

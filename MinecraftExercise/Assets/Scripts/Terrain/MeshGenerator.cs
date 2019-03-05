@@ -25,7 +25,6 @@ namespace Terrain
 
         public MeshGenerator()
         {
-            this.materialCoordinates = materialCoordinates;
             vertices = new List<Vector3>();
             triangles = new List<int>();
             uvs = new List<Vector2>();

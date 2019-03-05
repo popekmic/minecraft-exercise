@@ -27,7 +27,7 @@ namespace Utilities
             }
 
             GameObject returnValue = freeObjects.Dequeue();
-            returnValue.SetActive(true);
+            //returnValue.SetActive(true);
             return returnValue;
         }
 
@@ -36,14 +36,14 @@ namespace Utilities
             GameObject newObject = Object.Instantiate(pooledObject);
             PooledObject pooledComponent = newObject.AddComponent<PooledObject>();
             pooledComponent.ParentPool = this;
-            newObject.SetActive(false);
+            //newObject.SetActive(false);
             freeObjects.Enqueue(newObject);
         }
 
         public void ReturnObject(GameObject gameObject)
         {
             freeObjects.Enqueue(gameObject);
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
         }
 
         public void DestroyObjects()

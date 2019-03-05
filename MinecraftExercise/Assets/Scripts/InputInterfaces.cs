@@ -6,6 +6,7 @@ public interface IPlayerMovementInput
     float GetMouseAxisX();
     float GetMouseAxisY();
     bool IsJumpKeyPressed();
+    bool IsPointerOverUi();
 }
 
 public interface IMiningInput

@@ -15,20 +15,6 @@ namespace Tests
             objectPool = new ObjectPool(new GameObject(), 2);
         }
 
-
-        [Test]
-        public void ObtainingObjectTest()
-        {
-            GameObject obtainedObject = objectPool.GetObject();
-
-            Assert.True(obtainedObject.activeSelf);
-            Assert.NotNull(obtainedObject.GetComponent<PooledObject>());
-
-            objectPool.ReturnObject(obtainedObject);
-
-            Assert.False(obtainedObject.activeSelf);
-        }
-
         [Test]
         public void RecycleTest()
         {
