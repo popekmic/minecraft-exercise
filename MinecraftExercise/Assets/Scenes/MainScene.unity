@@ -536,7 +536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chunk: {fileID: 7055956973264729391, guid: c0e0d6b3db2f9974c8c093c291e2dccd, type: 3}
-  playerStartingPosition: {x: 256, y: 40, z: 256}
+  playerStartingPosition: {x: 128, y: 40, z: 128}
   terrainDefinition:
     cubes:
     - type: 1
@@ -551,7 +551,7 @@ MonoBehaviour:
     - type: 3
       heightInTerrain: 25
       timeToMine: 0.25
-  viewDistance: 256
+  viewDistance: 128
   maximumHeight: 48
   groundLevel: 10
   maxHeight: 35

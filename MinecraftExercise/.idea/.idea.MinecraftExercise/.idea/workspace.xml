@@ -17,7 +17,7 @@
     <session id="-717893327">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
+          <entry key="project.closed" value="10" />
           <entry key="project.open.time.10" value="4" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.13" value="1" />
@@ -163,7 +163,7 @@
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Terrain/TerrainGenerator.cs">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="160">
-              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
               <folding>
                 <marker date="1551817090735" expanded="false" signature="6:101" ph="..." />
                 <marker date="1551817090735" expanded="true" signature="120:3135" ph="{...}" />
@@ -189,8 +189,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Terrain/TerrainHandler.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1664">
-              <caret line="107" column="35" lean-forward="true" selection-start-line="107" selection-start-column="35" selection-end-line="107" selection-end-column="35" />
+            <state relative-caret-position="1424">
+              <caret line="107" column="35" selection-start-line="107" selection-start-column="35" selection-end-line="107" selection-end-column="35" />
               <folding>
                 <marker date="1551818323875" expanded="false" signature="6:83" ph="..." />
                 <marker date="1551818323875" expanded="true" signature="102:6596" ph="{...}" />
@@ -495,12 +495,12 @@
       <workItem from="1551636857783" duration="5577000" />
       <workItem from="1551719907036" duration="11410000" />
       <workItem from="1551808774690" duration="12496000" />
-      <workItem from="1551982377646" duration="385000" />
+      <workItem from="1551982377646" duration="729000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107663000" />
+    <option name="totallyTimeSpent" value="108007000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -861,7 +861,7 @@
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Terrain/TerrainGenerator.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
-          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
           <folding>
             <marker date="1551817090735" expanded="false" signature="6:101" ph="..." />
             <marker date="1551817090735" expanded="true" signature="120:3135" ph="{...}" />
@@ -885,8 +885,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Terrain/TerrainHandler.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1664">
-          <caret line="107" column="35" lean-forward="true" selection-start-line="107" selection-start-column="35" selection-end-line="107" selection-end-column="35" />
+        <state relative-caret-position="1424">
+          <caret line="107" column="35" selection-start-line="107" selection-start-column="35" selection-end-line="107" selection-end-column="35" />
           <folding>
             <marker date="1551818323875" expanded="false" signature="6:83" ph="..." />
             <marker date="1551818323875" expanded="true" signature="102:6596" ph="{...}" />
